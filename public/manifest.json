@@ -1,0 +1,14 @@
+{
+  "name": "FitTrack — Diet & Workout Coach",
+  "short_name": "FitTrack",
+  "description": "Personalized diet + workout plans you can track every day.",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#020617",
+  "theme_color": "#0a9a4b",
+  "icons": [
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
