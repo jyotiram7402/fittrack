@@ -1,6 +1,8 @@
-import { createServerClient } from "@supabase/ssr";
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { createClient as createAdminClient } from "@supabase/supabase-js";
+
+type CookieToSet = { name: string; value: string; options: CookieOptions };
 
 // Server Supabase client bound to the request cookies (respects RLS as the user).
 export function createServerSupabase() {
@@ -13,7 +15,7 @@ export function createServerSupabase() {
         getAll() {
           return cookieStore.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: CookieToSet[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options)
