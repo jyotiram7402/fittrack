@@ -18,6 +18,7 @@ export default async function DietPage({ searchParams }: { searchParams: { date?
 
   return (
     <DietTracker
+      key={date}
       date={date}
       initialLogs={logs}
       foods={foods}

@@ -194,6 +194,27 @@ export async function deletePersonalFood(id: string) {
   return { ok: true };
 }
 
+// --- Profile extras: photo, occupation, gym --------------------------------
+export async function updateProfileInfo(input: {
+  full_name?: string;
+  occupation?: string;
+  gym_name?: string;
+  avatar_url?: string;
+}) {
+  const { user, supabase } = await uid();
+  const patch: Record<string, string | null> = {};
+  if (input.full_name !== undefined) patch.full_name = sanitizeText(input.full_name, 80);
+  if (input.occupation !== undefined) patch.occupation = sanitizeText(input.occupation, 60) || null;
+  if (input.gym_name !== undefined) patch.gym_name = sanitizeText(input.gym_name, 60) || null;
+  if (input.avatar_url !== undefined) patch.avatar_url = input.avatar_url;
+  if (Object.keys(patch).length === 0) return { ok: true };
+  const { error } = await supabase.from("profiles").update(patch).eq("id", user.id);
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/settings");
+  revalidatePath("/dashboard");
+  return { ok: true };
+}
+
 // --- Account: export + delete (GDPR) --------------------------------------
 export async function deleteAccount() {
   const { user } = await uid();

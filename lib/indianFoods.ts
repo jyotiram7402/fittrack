@@ -148,6 +148,26 @@ const R: Row[] = [
   ["Marie Biscuits", "4 pcs (28 g)", "snack", 120, 2, 20, 3, ["gluten", "processed"]],
   ["Parle-G Biscuits", "4 pcs (25 g)", "snack", 110, 2, 19, 3, ["gluten", "processed", "sugary"]],
 
+  // ---------------- High-protein & clean picks ----------------
+  ["Boiled Chicken", "100 g", "lunch", 165, 31, 0, 4],
+  ["Chicken Salad", "1 bowl (200 g)", "lunch", 220, 28, 8, 8],
+  ["Steamed Fish", "150 g", "dinner", 180, 32, 0, 5],
+  ["Egg White Omelette", "3 whites", "breakfast", 60, 11, 1, 0],
+  ["Plain Omelette", "2 eggs (100 g)", "breakfast", 190, 12, 2, 15],
+  ["Oats (water)", "1 bowl (40 g dry)", "breakfast", 150, 5, 27, 3],
+  ["Toned Milk", "1 glass (250 ml)", "breakfast", 120, 8, 12, 4, ["dairy"]],
+  ["Soy Milk", "1 glass (250 ml)", "breakfast", 90, 7, 8, 4, ["soy"]],
+  ["Multigrain Bread", "2 slices (50 g)", "breakfast", 160, 6, 28, 2, ["gluten"]],
+  ["Paneer (raw)", "100 g", "snack", 265, 18, 4, 21, ["dairy"]],
+  ["Grilled Paneer", "100 g", "dinner", 280, 19, 5, 21, ["dairy"]],
+  ["Boiled Chana", "1 katori (100 g)", "snack", 160, 9, 27, 3, ["high_fodmap"]],
+  ["Quinoa (cooked)", "1 katori (150 g)", "lunch", 170, 6, 30, 3],
+  ["Sattu Drink", "1 glass (250 ml)", "snack", 150, 8, 22, 3],
+  ["Peanut Butter", "1 tbsp (15 g)", "snack", 95, 4, 3, 8, ["nuts"]],
+  ["Boiled Sweet Potato", "1 medium (130 g)", "snack", 115, 2, 27, 0],
+  ["Chicken Keema", "1 katori (150 g)", "dinner", 290, 28, 4, 18, ["spicy"]],
+  ["Egg Fried Rice", "1 plate (250 g)", "dinner", 420, 14, 58, 14],
+
   // ---------------- Sweets ----------------
   ["Gulab Jamun", "1 pc (40 g)", "snack", 150, 2, 20, 7, ["sugary", "dairy", "fried"]],
   ["Rasgulla", "1 pc (50 g)", "snack", 106, 2, 22, 1, ["sugary", "dairy"]],

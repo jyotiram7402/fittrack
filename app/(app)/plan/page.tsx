@@ -54,6 +54,34 @@ export default async function PlanPage() {
         {plan.stepTarget && <Tile label="Steps/day" value={`${plan.stepTarget.toLocaleString()}`} unit="" />}
       </div>
 
+      {/* The math — transparency builds trust */}
+      <section className="card">
+        <h2 className="flex items-center gap-2 font-semibold">🧮 How we calculated this</h2>
+        <p className="mt-1 text-xs text-slate-500">
+          Standard, published formulas — no black box. Your numbers:
+        </p>
+        <div className="mt-3 space-y-3 text-sm">
+          <MathStep n={1} title="BMR — Mifflin–St Jeor equation" note="Calories your body burns at complete rest.">
+            10 × {input.currentWeightKg} kg + 6.25 × {input.heightCm} cm − 5 × {input.age} yr {input.gender === "male" ? "+ 5" : input.gender === "female" ? "− 161" : "− 78"} = <b>{plan.bmr} kcal</b>
+          </MathStep>
+          <MathStep n={2} title="TDEE — total daily burn" note="BMR × your activity level multiplier.">
+            {plan.bmr} × activity factor = <b>{plan.tdee} kcal</b>
+          </MathStep>
+          <MathStep n={3} title="Goal adjustment" note="A safe surplus/deficit for your goal — never below safety floors.">
+            {plan.tdee} kcal adjusted for “{GOAL_LABELS[input.goal]}” = <b>{plan.calories} kcal/day</b>
+          </MathStep>
+          <MathStep n={4} title="Protein" note="Set per kg of body weight for your goal (muscle preservation & growth).">
+            {input.currentWeightKg} kg × goal factor = <b>{plan.protein} g</b>
+          </MathStep>
+          <MathStep n={5} title="Fat & carbs" note="Fat ≥ 0.8 g/kg for hormones; carbs fill the remaining calories.">
+            Fat <b>{plan.fat} g</b> · remaining {plan.calories} − ({plan.protein}×4 + {plan.fat}×9) → carbs <b>{plan.carbs} g</b>
+          </MathStep>
+          <MathStep n={6} title="Water" note="0.033 L per kg of body weight, minimum 2 L.">
+            {input.currentWeightKg} × 0.033 ≈ <b>{plan.water} L/day</b>
+          </MathStep>
+        </div>
+      </section>
+
       {/* Split */}
       <section className="card">
         <h2 className="flex items-center gap-2 font-semibold"><Dumbbell className="h-5 w-5 text-brand-500" /> {plan.splitLabel}</h2>
@@ -96,6 +124,21 @@ export default async function PlanPage() {
       )}
 
       <MedicalDisclaimer />
+    </div>
+  );
+}
+
+function MathStep({ n, title, note, children }: { n: number; title: string; note: string; children: React.ReactNode }) {
+  return (
+    <div className="flex gap-3">
+      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-100 text-xs font-bold text-brand-700 dark:bg-brand-900/40 dark:text-brand-300">
+        {n}
+      </div>
+      <div className="min-w-0">
+        <p className="font-medium">{title}</p>
+        <p className="rounded-lg bg-slate-50 px-2 py-1 font-mono text-xs dark:bg-slate-800/60">{children}</p>
+        <p className="mt-0.5 text-xs text-slate-500">{note}</p>
+      </div>
     </div>
   );
 }

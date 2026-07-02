@@ -129,6 +129,9 @@ export interface Profile {
   active_split: SplitType | null;
   onboarding_complete: boolean;
   suspended: boolean;
+  occupation: string | null;
+  gym_name: string | null;
+  avatar_url: string | null;
   created_at: string;
 }
 

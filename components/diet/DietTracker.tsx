@@ -160,6 +160,9 @@ export function DietTracker({ date, initialLogs, initialWater, foods, avoidTags,
         <MacroRing label="Fat" value={totals.fat} target={targets.fat} color="#ef4444" size={80} />
       </div>
 
+      {/* today coach — what's left & how to hit it */}
+      <CoachCard totals={totals} targets={targets} onSuggest={(f) => setShowAdd(f)} />
+
       {/* water */}
       <div className="card">
         <div className="mb-2 flex items-center justify-between">
@@ -203,6 +206,76 @@ export function DietTracker({ date, initialLogs, initialWater, foods, avoidTags,
           onClose={() => setShowAdd(null)}
           onPick={addFood}
         />
+      )}
+    </div>
+  );
+}
+
+// Shows remaining macros for the day and quick food ideas to close the gap.
+function CoachCard({
+  totals,
+  targets,
+  onSuggest,
+}: {
+  totals: { calories: number; protein: number; carbs: number; fat: number };
+  targets: { calories: number; protein: number; carbs: number; fat: number };
+  onSuggest: (slot: Slot) => void;
+}) {
+  const remCal = Math.max(0, Math.round(targets.calories - totals.calories));
+  const remPro = Math.max(0, Math.round(targets.protein - totals.protein));
+
+  // Pick protein-dense foods that fit the remaining calories.
+  const ideas = useMemo(() => {
+    if (remPro < 10) return [];
+    return INDIAN_FOODS.filter((f) => f.protein >= 8 && f.calories <= Math.max(remCal, 150))
+      .sort((a, b) => b.protein / Math.max(b.calories, 1) - a.protein / Math.max(a.calories, 1))
+      .slice(0, 3);
+  }, [remPro, remCal]);
+
+  const proDone = targets.protein > 0 && remPro < 10;
+  const calDone = targets.calories > 0 && remCal < 50;
+
+  if (proDone && calDone) {
+    return (
+      <div className="card border-brand-300 bg-brand-50/50 dark:border-brand-800 dark:bg-brand-900/20">
+        <p className="text-sm font-semibold">🎉 Targets hit!</p>
+        <p className="text-xs text-slate-500">Great job — you've completed today's calories and protein.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="card">
+      <div className="mb-2 flex items-center justify-between">
+        <h2 className="font-semibold">🎯 Today's coach</h2>
+        <span className="text-xs text-slate-500">what's left</span>
+      </div>
+      <div className="flex gap-2">
+        <div className="flex-1 rounded-xl bg-slate-50 p-2.5 text-center dark:bg-slate-800/50">
+          <p className="text-lg font-bold tabular-nums">{remCal}</p>
+          <p className="text-[10px] text-slate-500">kcal left</p>
+        </div>
+        <div className="flex-1 rounded-xl bg-blue-50 p-2.5 text-center dark:bg-blue-900/20">
+          <p className="text-lg font-bold tabular-nums text-blue-600 dark:text-blue-400">{remPro} g</p>
+          <p className="text-[10px] text-slate-500">protein left</p>
+        </div>
+      </div>
+      {ideas.length > 0 && (
+        <>
+          <p className="mt-3 text-xs font-medium text-slate-500">Ideas to close the protein gap:</p>
+          <div className="mt-1.5 space-y-1">
+            {ideas.map((f) => (
+              <button
+                key={f.id}
+                onClick={() => onSuggest(f.slot)}
+                className="flex w-full items-center justify-between rounded-lg bg-slate-50 px-2.5 py-2 text-left text-xs hover:bg-slate-100 dark:bg-slate-800/50 dark:hover:bg-slate-800"
+              >
+                <span className="font-medium">{f.name} <span className="text-slate-400">· {f.serving}</span></span>
+                <span className="shrink-0 font-semibold text-blue-600 dark:text-blue-400">+{f.protein}g</span>
+              </button>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
