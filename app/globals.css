@@ -43,6 +43,47 @@ body {
   }
 }
 
+/* ---------- animated backgrounds (landing + auth) ---------- */
+@keyframes blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(24px, -32px) scale(1.08); }
+  66% { transform: translate(-20px, 18px) scale(0.94); }
+}
+.animate-blob {
+  animation: blob 14s ease-in-out infinite;
+}
+.animation-delay-2 { animation-delay: -4s; }
+.animation-delay-4 { animation-delay: -8s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(3deg); }
+}
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-float-slow { animation: float 9s ease-in-out infinite; }
+
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: shimmer 8s ease infinite;
+}
+
+@layer components {
+  .glass {
+    @apply rounded-2xl border border-white/40 bg-white/70 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/70;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-blob, .animate-float, .animate-float-slow, .animate-gradient {
+    animation: none;
+  }
+}
+
 /* hide scrollbars on horizontal scrollers */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
